@@ -1,0 +1,21 @@
+service observium_agent
+{
+        type           = UNLISTED
+        port           = 36602
+        socket_type    = stream
+        protocol       = tcp
+        wait           = no
+        user           = root
+        server         = /usr/bin/observium_agent
+
+        # configure the IPv[4|6] address(es) of your Observium server here:
+        only_from      = <% allow_addresses_ipv4.each do |ipv4| -%><%= ipv4 %> <% end -%><% allow_addresses_ipv6.each do |ipv6| -%><%= ipv6 %> <% end -%>
+
+        # Don't be too verbose. Don't log every check. This might be
+        # commented out for debugging. If this option is commented out
+        # the default options will be used for this service.
+        log_on_success =
+
+        disable        = no
+}
+
