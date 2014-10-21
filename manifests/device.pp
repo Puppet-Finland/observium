@@ -17,6 +17,7 @@ class observium::device
     @@exec { "Add ${::fqdn} to Observium":
         command => "${observium_basedir}/add_device.php ${::fqdn} ${community} ${snmp_ver}",
         path => [ "${observium_basedir}", "/bin", "/sbin", "/usr/bin", "/usr/sbin", "/usr/local/bin", "usr/local/sbin" ],
+        unless => ["mysql --defaults-extra-file=/root/.my.cnf -e \"SELECT hostname FROM observium.devices WHERE hostname = \'${fqdn}\'\"|grep ${::fqdn}"],
         user => 'root',
         tag => 'observium-add_device',
     }
