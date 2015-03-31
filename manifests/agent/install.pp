@@ -28,6 +28,7 @@ class observium::agent::install
         owner => root,
         group => root,
         mode => 755,
+        force => true,
     }
 
     file { 'observium-local_libdir':
@@ -37,5 +38,6 @@ class observium::agent::install
         group => root,
         mode => 755,
         require => File['observium-libdir'],
+        force => true,
     }
 }
