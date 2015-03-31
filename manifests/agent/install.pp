@@ -3,12 +3,20 @@
 #
 # Install the Observium Unix Agent
 #
-class observium::agent::install {
+class observium::agent::install
+(
+    $ensure
+)
+{
+    $ensure_dir = $ensure ? {
+        'present' => directory,
+        'absent' => absent,
+    }
 
     file { 'observium-observium_agent':
         name => '/usr/bin/observium_agent',
         content => template('observium/observium_agent'),
-        ensure => present,
+        ensure => $ensure,
         owner => root,
         group => root,
         mode => 755,
@@ -16,7 +24,7 @@ class observium::agent::install {
 
     file { 'observium-libdir':
         name => '/usr/lib/observium_agent',
-        ensure => directory,
+        ensure => $ensure_dir,
         owner => root,
         group => root,
         mode => 755,
@@ -24,7 +32,7 @@ class observium::agent::install {
 
     file { 'observium-local_libdir':
         name => '/usr/lib/observium_agent/local',
-        ensure => directory,
+        ensure => $ensure_dir,
         owner => root,
         group => root,
         mode => 755,
